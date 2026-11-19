@@ -147,7 +147,7 @@ static UIStackView* Stack(UILayoutConstraintAxis axis, CGFloat spacing) {
     return s;
 }
 
-static void Size(UIView* v, CGFloat w, CGFloat h) {
+static void SetSize(UIView* v, CGFloat w, CGFloat h) {
     v.translatesAutoresizingMaskIntoConstraints = NO;
     if (w > 0) [v.widthAnchor constraintEqualToConstant:w].active = YES;
     if (h > 0) [v.heightAnchor constraintEqualToConstant:h].active = YES;
@@ -535,7 +535,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
 - (SBtn*)primary:(NSString*)title bg:(UIColor*)bg {
     SBtn* b = [SBtn title:title bg:bg fg:UIColor.whiteColor size:15];
     b.layer.cornerRadius = 12;
-    Size(b, 0, 44);
+    SetSize(b, 0, 44);
     return b;
 }
 
@@ -579,15 +579,15 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
     _balance[@((int)c)] = bal;
 
     SBtn* add = [SBtn title:@"+" bg:C_CHIP fg:UIColor.whiteColor size:18];
-    Size(add, 40, 34);
+    SetSize(add, 40, 34);
     add.onTap = ^{ [self prompt:c set:NO]; };
 
     SBtn* set = [SBtn title:@"=" bg:C_CHIP fg:UIColor.whiteColor size:18];
-    Size(set, 40, 34);
+    SetSize(set, 40, 34);
     set.onTap = ^{ [self prompt:c set:YES]; };
 
     SBtn* max = [SBtn title:@"MAX" bg:[C_ACCENT colorWithAlphaComponent:0.25] fg:C_SOFT size:12];
-    Size(max, 50, 34);
+    SetSize(max, 50, 34);
     max.onTap = ^{
         [self toast:secret::setBalance(c, kMaxBalance) ? L(@"ok") : L(@"not_ready")];
         [self refreshBalances];
@@ -681,7 +681,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
     _speedLbl = Lbl([NSString stringWithFormat:@"%@ ×%.1f", L(@"speed_mult"), st.speedMult], 13, UIFontWeightSemibold, C_BODY);
     _speedLbl.numberOfLines = 1;
     _speedLbl.adjustsFontSizeToFitWidth = YES;
-    Size(_speedLbl, 116, 0);
+    SetSize(_speedLbl, 116, 0);
     SSlider* sl = [SSlider new];
     sl.minimumValue = kSpeedMin;
     sl.maximumValue = kSpeedMax;
@@ -706,7 +706,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
     UIStackView* top = Stack(UILayoutConstraintAxisHorizontal, 10);
     SBtn* back = [SBtn title:L(@"back") bg:C_CHIP fg:UIColor.whiteColor size:13];
     back.contentEdgeInsets = UIEdgeInsetsMake(0, 12, 0, 12);
-    Size(back, 0, 34);
+    SetSize(back, 0, 34);
     [back setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     back.onTap = ^{
         [self->_win endEditing:YES];
@@ -742,7 +742,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
         sf.leftView = pad;
         sf.leftViewMode = UITextFieldViewModeAlways;
     }
-    Size(sf, 0, 38);
+    SetSize(sf, 0, 38);
     [sf addTarget:self action:@selector(carSearchChanged:) forControlEvents:UIControlEventEditingChanged];
     [sf addTarget:sf action:@selector(resignFirstResponder) forControlEvents:UIControlEventEditingDidEndOnExit];
     [_stack addArrangedSubview:sf];
@@ -811,7 +811,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
                              bg:(car.owned ? C_OK_BG : C_ACCENT)
                              fg:(car.owned ? C_OK_FG : UIColor.whiteColor)
                            size:13];
-        Size(btn, 64, 34);
+        SetSize(btn, 64, 34);
         __weak SBtn* wbtn = btn;
         size_t cacheIdx = i;
         int carId = car.id;
@@ -848,7 +848,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
 
     UIStackView* top = Stack(UILayoutConstraintAxisHorizontal, 14);
     UIView* av = [UIView new];
-    Size(av, 64, 64);
+    SetSize(av, 64, 64);
     [av.layer addSublayer:Gradient(CGRectMake(0, 0, 64, 64), 32)];
     UILabel* x = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
     x.text = @"X";
@@ -890,7 +890,7 @@ static CAGradientLayer* Gradient(CGRect frame, CGFloat radius) {
     [seg setTitleTextAttributes:attrs forState:UIControlStateNormal];
     [seg setTitleTextAttributes:attrs forState:UIControlStateSelected];
     [seg addTarget:self action:@selector(langChanged:) forControlEvents:UIControlEventValueChanged];
-    Size(seg, 0, 36);
+    SetSize(seg, 0, 36);
     [lang addArrangedSubview:seg];
 
     UIStackView* about = [self card:L(@"about_mod")];
