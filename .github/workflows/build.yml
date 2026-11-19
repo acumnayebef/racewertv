@@ -19,7 +19,7 @@ jobs:
             -arch arm64 -isysroot "$SDK" -miphoneos-version-min=13.0 \
             -std=gnu++17 -fobjc-arc -O2 -dynamiclib \
             -Wall -Wno-deprecated-declarations -Wno-unused-function \
-            -framework Foundation -framework UIKit -framework QuartzCore \
+            -framework Foundation -framework UIKit -framework QuartzCore -framework CoreGraphics \
             -install_name @rpath/XantapersMod.dylib \
             Tweak.mm Build.mm \
             -o out/XantapersMod.dylib
