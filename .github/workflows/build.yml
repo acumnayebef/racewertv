@@ -1,0 +1,33 @@
+name: Build dylib
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build XantapersMod.dylib (arm64, iOS 13+)
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          mkdir -p out
+          xcrun --sdk iphoneos clang++ \
+            -arch arm64 -isysroot "$SDK" -miphoneos-version-min=13.0 \
+            -std=gnu++17 -fobjc-arc -O2 -dynamiclib \
+            -Wall -Wno-deprecated-declarations -Wno-unused-function \
+            -framework Foundation -framework UIKit -framework QuartzCore \
+            -install_name @rpath/XantapersMod.dylib \
+            Tweak.mm Build.mm \
+            -o out/XantapersMod.dylib
+          codesign -f -s - out/XantapersMod.dylib
+          file out/XantapersMod.dylib
+          otool -L out/XantapersMod.dylib
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: XantapersMod
+          path: out/XantapersMod.dylib
